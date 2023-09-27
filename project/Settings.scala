@@ -23,6 +23,9 @@ import com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport.Universal
 import sbt.{Def, File, _}
 import sbt.Keys._
 import sbtassembly.AssemblyPlugin.autoImport._
+import sbtrelease.ReleasePlugin.autoImport._
+import sbtrelease.ReleaseStateTransformations._
+import sbtrelease.Utilities._
 
 import scala.collection.JavaConverters._
 
@@ -38,6 +41,7 @@ object Settings {
   ) ++ addCommandAlias(
     "releaseSilent", "release with-defaults"
   )
+
   lazy val common = cmdAlias ++ Seq(
     maintainer in Universal := projectMaintainer,
     publish / skip := true,
@@ -69,6 +73,23 @@ object Settings {
 
 
   )
+
+  releaseProcess := Seq[ReleaseStep](
+    checkSnapshotDependencies,
+    inquireVersions,
+    runTest,
+    setReleaseVersion,
+    commitReleaseVersion,
+    tagRelease,
+    releaseStepCommandAndRemaining("set ThisBuild / useSuperShell := false"),
+    //publishSignedArtifacts,
+    releaseStepCommandAndRemaining("set ThisBuild / useSuperShell := true"),
+    releaseStepCommandAndRemaining("sonatypeBundleRelease"),
+    setNextVersion,
+    commitNextVersion,
+    pushChanges
+  )
+
   lazy val assemblyProject: Seq[Def.Setting[_]] = common ++ baseAssemblySettings ++ Seq(
     test in assembly := {},
     mappings in Universal := {
