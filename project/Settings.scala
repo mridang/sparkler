@@ -86,8 +86,8 @@ object Settings {
     releaseStepCommandAndRemaining("set ThisBuild / useSuperShell := true"),
     releaseStepCommandAndRemaining("sonatypeBundleRelease"),
     setNextVersion,
-    commitNextVersion,
-    pushChanges
+    //commitNextVersion,
+    //pushChanges
   )
 
   lazy val assemblyProject: Seq[Def.Setting[_]] = common ++ baseAssemblySettings ++ Seq(
