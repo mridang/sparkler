@@ -23,9 +23,6 @@ import com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport.Universal
 import sbt.{Def, File, _}
 import sbt.Keys._
 import sbtassembly.AssemblyPlugin.autoImport._
-import sbtrelease.ReleasePlugin.autoImport._
-import sbtrelease.ReleaseStateTransformations._
-import sbtrelease.Utilities._
 
 import scala.collection.JavaConverters._
 
@@ -41,9 +38,8 @@ object Settings {
   ) ++ addCommandAlias(
     "releaseSilent", "release with-defaults"
   )
-
   lazy val common = cmdAlias ++ Seq(
-    maintainer in Universal := projectMaintainer,
+    Universal / maintainer := projectMaintainer,
     publish / skip := true,
     makeBatScripts := Seq(),
     makeBashScripts := Seq(),
@@ -73,34 +69,17 @@ object Settings {
 
 
   )
-
-  releaseProcess := Seq[ReleaseStep](
-    checkSnapshotDependencies,
-    inquireVersions,
-    runTest,
-    setReleaseVersion,
-    commitReleaseVersion,
-    tagRelease,
-    releaseStepCommandAndRemaining("set ThisBuild / useSuperShell := false"),
-    //publishSignedArtifacts,
-    releaseStepCommandAndRemaining("set ThisBuild / useSuperShell := true"),
-    releaseStepCommandAndRemaining("sonatypeBundleRelease"),
-    setNextVersion,
-    //commitNextVersion,
-    //pushChanges
-  )
-
   lazy val assemblyProject: Seq[Def.Setting[_]] = common ++ baseAssemblySettings ++ Seq(
     test in assembly := {},
-    mappings in Universal := {
-      val universalMappings = (mappings in Universal).value
-      val fatJar = (assembly in Compile).value
+    Universal / mappings := {
+      val universalMappings = (Universal / mappings).value
+      val fatJar = (Compile / assembly).value
       universalMappings :+ (fatJar -> ("lib/" + fatJar.getName))
     }
   )
   lazy val plugin: Seq[Def.Setting[_]] = assemblyProject ++ Seq(
     autoScalaLibrary := false,
-    assemblyMergeStrategy in assembly := {
+    assembly / assemblyMergeStrategy := {
       case x if x.contains("io.netty.versions.properties") => MergeStrategy.last
       case x if x.contains("Log4j2Plugins.dat") => MergeStrategy.first
       case x if x.contains("module-info.class") => MergeStrategy.first
