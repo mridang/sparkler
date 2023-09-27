@@ -44,7 +44,7 @@ object Dependencies {
   lazy val nutch = "org.apache.nutch" % "nutch" % "1.16"
   lazy val pf4j = "org.pf4j" % "pf4j" % "3.6.0"
   lazy val scalaMacrosParadise = "org.scalamacros" %% "paradise" % "2.1.1"
-  lazy val lz4 = "net.jpountz.lz4" % "lz4" % "1.3.0"
+  lazy val lz4 = "org.lz4" % "lz4-java" % "1.8.0"
 
   object Slf4j {
     private val group = "org.slf4j"
