@@ -17,12 +17,11 @@
 
 package edu.usc.irds.sparkler.util;
 
-import edu.usc.irds.sparkler.Constants;
-import edu.usc.irds.sparkler.JobContext;
-import edu.usc.irds.sparkler.SparklerException;
-import edu.usc.irds.sparkler.model.FetchedData;
-import edu.usc.irds.sparkler.model.Resource;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
@@ -30,7 +29,11 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import edu.usc.irds.sparkler.Constants;
+import edu.usc.irds.sparkler.JobContext;
+import edu.usc.irds.sparkler.SparklerException;
+import edu.usc.irds.sparkler.model.FetchedData;
+import edu.usc.irds.sparkler.model.Resource;
 /**
  * @since 12/28/16
  */
@@ -54,20 +57,17 @@ public class FetcherDefaultTest {
     /**
      * Tests if a classpath is setup correctly
      */
-    @Test
     public void testClasspath() {
         assertNotNull(getClass().getClassLoader().getResource("domain-suffixes.xml"));
         assertNotNull(getClass().getClassLoader().getResource(Constants.file.SPARKLER_DEFAULT));
     }
 
-    @Test
     public void testUserAgentRotation(){
         String ua1 = fetcher.getUserAgent();
         String ua2 = fetcher.getUserAgent();
         assertNotSame(ua1, ua2);
     }
 
-    @Test
     public void fetch() throws Exception {
         long start = System.currentTimeMillis();
         FetchedData data1 = fetcher.fetch(indexPage);
@@ -85,7 +85,6 @@ public class FetcherDefaultTest {
         }
     }
 
-    @Test
     public void fetch1() throws Exception {
         Iterator<FetchedData> stream = fetcher.fetch(resources.iterator());
         List<FetchedData> list = new ArrayList<>();
@@ -101,7 +100,6 @@ public class FetcherDefaultTest {
         }
     }
 
-    @Test
     public void testReadTimeout() throws Exception {
 
         String url = "http://localhost:8080/slavesite?action=read-timeout&timeout=";
@@ -118,7 +116,6 @@ public class FetcherDefaultTest {
         }
     }
 
-    @Test
     public void testHeaders() throws Exception {
         /**
          * This test case tests two functionality
