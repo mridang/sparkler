@@ -40,7 +40,15 @@ object Settings {
   )
   lazy val common = cmdAlias ++ Seq(
     Universal / maintainer := projectMaintainer,
-    publish / skip := true,
+    //publish / skip := true,
+    publishTo := Some("GitHub Mridang Apache Maven Packages" at "https://maven.pkg.github.com/mridang/sparkler"),
+    publishMavenStyle := true,
+    credentials += Credentials(
+      "GitHub Package Registry",
+      "maven.pkg.github.com",
+      "mridang",
+      "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"
+    ),
     makeBatScripts := Seq(),
     makeBashScripts := Seq(),
     scalacOptions ++=  Seq(
