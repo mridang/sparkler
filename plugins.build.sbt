@@ -32,7 +32,7 @@ lazy val plugins = (project in file(s"$sparklerPlugins"))
     urlFilterRegex,
     urlFilterSameHost,
     urlInjector,
-    databricks
+    //databricks
   )
 //fetcherJBrowser,
 /**
@@ -78,22 +78,22 @@ lazy val fetcherChrome = (project in file(s"$sparklerPlugins/fetcher-chrome"))
   )
   .dependsOn(api)
 
-lazy val databricks =
-  (project in file(s"$sparklerPlugins/databricks-api-plugin"))
-    .enablePlugins(JavaAppPackaging)
-    .settings(
-      Settings.plugin,
-      name := "databricks-api",
-      libraryDependencies ++= Seq(
-        Databricks.wrapper exclude ("org.apache", "spark-core") exclude ("org.apache", "spark-sql")
-      ),
-      Settings.pluginManifest(
-        id = "databricks-api",
-        className = "com.kytheralabs.databricks.DatabricksAPIActivator",
-        dependencies = List.empty
-      )
-    )
-    .dependsOn(api)
+//lazy val databricks =
+//  (project in file(s"$sparklerPlugins/databricks-api-plugin"))
+//    .enablePlugins(JavaAppPackaging)
+//    .settings(
+//      Settings.plugin,
+//      name := "databricks-api",
+//      libraryDependencies ++= Seq(
+//        Databricks.wrapper exclude ("org.apache", "spark-core") exclude ("org.apache", "spark-sql")
+//      ),
+//      Settings.pluginManifest(
+//        id = "databricks-api",
+//        className = "com.kytheralabs.databricks.DatabricksAPIActivator",
+//        dependencies = List.empty
+//      )
+//    )
+//    .dependsOn(api)
 
 lazy val fetcherHtmlUnit =
   (project in file(s"$sparklerPlugins/fetcher-htmlunit"))
