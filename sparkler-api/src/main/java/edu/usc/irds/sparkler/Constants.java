@@ -17,12 +17,12 @@
 
 package edu.usc.irds.sparkler;
 
-import org.apache.commons.io.IOUtils;
-import org.yaml.snakeyaml.Yaml;
-
 import java.io.InputStream;
 import java.util.Map;
 import java.util.UUID;
+
+import org.apache.commons.io.IOUtils;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * A static container for all the constants
@@ -102,7 +102,7 @@ public interface Constants {
             InputStream input = null;
             SparklerConfiguration sparklerConf = null;
             try {
-                input = Constants.class.getClassLoader().getResourceAsStream(file.SPARKLER_DEFAULT);
+                input = Constants.class.getClassLoader().getResourceAsStream(System.getProperty("sparkler.conf", file.SPARKLER_DEFAULT));
                 Map<String,Object> yamlMap = (Map<String, Object>) yaml.load(input);
                 sparklerConf = new SparklerConfiguration(yamlMap);
             } catch (Exception e) {
