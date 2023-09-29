@@ -17,8 +17,6 @@
 
 package edu.usc.irds.sparkler.base
 
-//import ch.qos.logback.classic.{Level, Logger}
-import edu.usc.irds.sparkler.base.Loggable.selectedLogLevel
 import org.slf4j.LoggerFactory
 
 /**

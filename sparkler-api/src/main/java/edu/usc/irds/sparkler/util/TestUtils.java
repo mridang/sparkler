@@ -17,8 +17,9 @@
 
 package edu.usc.irds.sparkler.util;
 
-import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.usc.irds.sparkler.Constants;
 import edu.usc.irds.sparkler.ExtensionPoint;
 import edu.usc.irds.sparkler.JobContext;
@@ -31,7 +32,7 @@ import edu.usc.irds.sparkler.SparklerException;
  */
 public class TestUtils {
 
-    public static Logger LOG = new LoggerContext().getLogger(TestUtils.class);
+    public static Logger LOG = LoggerFactory.getLogger(TestUtils.class);
 
     /**
      * Configuration to be used by  tests

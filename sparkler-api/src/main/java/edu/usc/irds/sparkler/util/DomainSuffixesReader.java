@@ -17,22 +17,23 @@
 
 package edu.usc.irds.sparkler.util;
 
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
-import edu.usc.irds.sparkler.util.DomainSuffix.Status;
-import edu.usc.irds.sparkler.util.TopLevelDomain.Type;
+import java.io.IOException;
+import java.io.InputStream;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.InputStream;
+import edu.usc.irds.sparkler.util.DomainSuffix.Status;
+import edu.usc.irds.sparkler.util.TopLevelDomain.Type;
 
 /**
  * For parsing xml files containing domain suffix definitions. Parsed xml files
@@ -42,8 +43,7 @@ import java.io.InputStream;
  */
 class DomainSuffixesReader {
 
-    private static final Logger LOG = new LoggerContext()
-            .getLogger(DomainSuffixesReader.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DomainSuffixesReader.class);
 
     void read(DomainSuffixes tldEntries, InputStream input) throws IOException {
         try {

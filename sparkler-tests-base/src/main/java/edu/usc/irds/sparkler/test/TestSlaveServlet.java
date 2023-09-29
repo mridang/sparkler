@@ -1,17 +1,18 @@
 package edu.usc.irds.sparkler.test;
 
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This servlet acts as a slave to test cases by doing whatever the action they request.
@@ -20,7 +21,7 @@ import java.util.Map;
  */
 public class TestSlaveServlet extends HttpServlet {
 
-    private static final Logger LOG = new LoggerContext().getLogger(TestSlaveServlet.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TestSlaveServlet.class);
 
     private static Map<String, Class<? extends TestAction>> actionsRegistry = new HashMap<>();
     static {

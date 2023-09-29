@@ -225,7 +225,6 @@ lazy val testsBase = (project in file("sparkler-tests-base"))
       Dependencies.Jetty.server,
       Dependencies.Jetty.servlet,
       Dependencies.jUnit,
-      Dependencies.Slf4j.logback,
       Dependencies.Slf4j.api,
       Dependencies.Slf4j.log4j12,
     ),

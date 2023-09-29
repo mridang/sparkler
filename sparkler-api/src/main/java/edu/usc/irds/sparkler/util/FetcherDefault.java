@@ -1,13 +1,28 @@
 package edu.usc.irds.sparkler.util;
 
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
-import edu.usc.irds.sparkler.*;
-import edu.usc.irds.sparkler.model.FetchedData;
-import edu.usc.irds.sparkler.model.Resource;
-import edu.usc.irds.sparkler.model.ResourceStatus;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import org.apache.commons.io.IOUtils;
-import org.apache.http.*;
+import org.apache.http.Consts;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -23,21 +38,21 @@ import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import edu.usc.irds.sparkler.AbstractExtensionPoint;
+import edu.usc.irds.sparkler.Constants;
+import edu.usc.irds.sparkler.Fetcher;
+import edu.usc.irds.sparkler.JobContext;
+import edu.usc.irds.sparkler.SparklerConfiguration;
+import edu.usc.irds.sparkler.SparklerException;
+import edu.usc.irds.sparkler.model.FetchedData;
+import edu.usc.irds.sparkler.model.Resource;
+import edu.usc.irds.sparkler.model.ResourceStatus;
 
 /**
  * This class is a default implementation of {@link Fetcher} contract.
@@ -47,7 +62,7 @@ import java.util.stream.Collectors;
  */
 public class FetcherDefault extends AbstractExtensionPoint implements Fetcher, Function<Resource, FetchedData> {
     //TODO: move this to a plugin named fetcher-default
-    public static final Logger LOG = new LoggerContext().getLogger(FetcherDefault.class);
+    public static final Logger LOG = LoggerFactory.getLogger(FetcherDefault.class);
     public static final Integer CONNECT_TIMEOUT = 5000; // Milliseconds. FIXME: Get from Configuration
     public static final Integer READ_TIMEOUT = 10000; // Milliseconds. FIXME: Get from Configuration
     public static final Integer CONTENT_LIMIT = 100 * 1024 * 1024; // Bytes. FIXME: Get from Configuration

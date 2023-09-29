@@ -1,28 +1,28 @@
 package edu.usc.irds.sparkler.plugin;
 
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.pf4j.Extension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.usc.irds.sparkler.AbstractExtensionPoint;
 import edu.usc.irds.sparkler.Config;
 import edu.usc.irds.sparkler.SparklerConfiguration;
 import edu.usc.irds.sparkler.SparklerException;
 import edu.usc.irds.sparkler.UrlInjectorObj;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.pf4j.Extension;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Collection;
-import java.util.Iterator;
-
 @Extension
 public class UrlInjector extends AbstractExtensionPoint implements Config {
 
-    private static final Logger LOG = new LoggerContext().getLogger(UrlInjector.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UrlInjector.class);
     private Map<String, Object> pluginConfig;
 
     @Override

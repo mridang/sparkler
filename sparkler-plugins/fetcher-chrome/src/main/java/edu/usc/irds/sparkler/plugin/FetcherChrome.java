@@ -17,36 +17,47 @@
 
 package edu.usc.irds.sparkler.plugin;
 
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.TrustAllStrategy;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.ssl.SSLContextBuilder;
-import uk.co.spicule.magnesium_script.Program;
-import uk.co.spicule.seleniumscripter.SeleniumScripter;
-import uk.co.spicule.magnesium_script.MagnesiumScript;
-import edu.usc.irds.sparkler.JobContext;
-import edu.usc.irds.sparkler.SparklerConfiguration;
-import edu.usc.irds.sparkler.SparklerException;
-import edu.usc.irds.sparkler.model.FetchedData;
-import edu.usc.irds.sparkler.model.Resource;
-import edu.usc.irds.sparkler.model.ResourceStatus;
-import edu.usc.irds.sparkler.util.FetcherDefault;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.openqa.selenium.*;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.Proxy;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogEntries;
@@ -57,19 +68,19 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.pf4j.Extension;
-import org.apache.commons.lang.NotImplementedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.net.MalformedURLException;
-
-import java.net.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import edu.usc.irds.sparkler.JobContext;
+import edu.usc.irds.sparkler.SparklerConfiguration;
+import edu.usc.irds.sparkler.SparklerException;
+import edu.usc.irds.sparkler.model.FetchedData;
+import edu.usc.irds.sparkler.model.Resource;
+import edu.usc.irds.sparkler.model.ResourceStatus;
+import edu.usc.irds.sparkler.util.FetcherDefault;
+import uk.co.spicule.magnesium_script.MagnesiumScript;
+import uk.co.spicule.magnesium_script.Program;
+import uk.co.spicule.seleniumscripter.SeleniumScripter;
 
 @Extension
 public class FetcherChrome extends FetcherDefault {
@@ -79,7 +90,7 @@ public class FetcherChrome extends FetcherDefault {
         SELENIUM, MAGNESIUM
     }
 
-    private static final Logger LOG = new LoggerContext().getLogger(FetcherChrome.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FetcherChrome.class);
     private Map<String, Object> pluginConfig;
     private WebDriver driver;
     private ScriptType type;

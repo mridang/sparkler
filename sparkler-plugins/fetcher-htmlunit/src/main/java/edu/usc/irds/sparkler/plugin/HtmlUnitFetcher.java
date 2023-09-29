@@ -17,27 +17,6 @@
 
 package edu.usc.irds.sparkler.plugin;
 
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
-import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.HttpMethod;
-import com.gargoylesoftware.htmlunit.Page;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.WebClientOptions;
-import com.gargoylesoftware.htmlunit.WebRequest;
-import com.gargoylesoftware.htmlunit.WebResponse;
-import com.gargoylesoftware.htmlunit.util.NameValuePair;
-import edu.usc.irds.sparkler.JobContext;
-import edu.usc.irds.sparkler.SparklerException;
-import edu.usc.irds.sparkler.model.FetchedData;
-import edu.usc.irds.sparkler.model.Resource;
-import edu.usc.irds.sparkler.model.ResourceStatus;
-import edu.usc.irds.sparkler.util.FetcherDefault;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.input.BoundedInputStream;
-import org.apache.commons.lang3.StringUtils;
-import org.pf4j.Extension;
-
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -46,6 +25,29 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.input.BoundedInputStream;
+import org.apache.commons.lang3.StringUtils;
+import org.pf4j.Extension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.HttpMethod;
+import com.gargoylesoftware.htmlunit.Page;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.WebClientOptions;
+import com.gargoylesoftware.htmlunit.WebRequest;
+import com.gargoylesoftware.htmlunit.WebResponse;
+import com.gargoylesoftware.htmlunit.util.NameValuePair;
+
+import edu.usc.irds.sparkler.JobContext;
+import edu.usc.irds.sparkler.SparklerException;
+import edu.usc.irds.sparkler.model.FetchedData;
+import edu.usc.irds.sparkler.model.Resource;
+import edu.usc.irds.sparkler.model.ResourceStatus;
+import edu.usc.irds.sparkler.util.FetcherDefault;
 
 /**
  * This class has implements {@link edu.usc.irds.sparkler.Fetcher} using
@@ -57,7 +59,7 @@ public class HtmlUnitFetcher extends FetcherDefault implements AutoCloseable {
 
     private static final Integer DEFAULT_TIMEOUT = 2000;
     private static final Integer DEFAULT_JS_TIMEOUT = 2000;
-    private static final Logger LOG = new LoggerContext().getLogger(HtmlUnitFetcher.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HtmlUnitFetcher.class);
     private WebClient driver;
 
     @Override

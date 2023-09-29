@@ -17,14 +17,12 @@
 
 package edu.usc.irds.sparkler.util;
 
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
-import edu.usc.irds.sparkler.SparklerException;
-
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by ksingh on 1/29/17.
@@ -33,7 +31,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class StringUtil {
 
-    public static Logger LOG = new LoggerContext().getLogger(StringUtil.class);
+    public static Logger LOG = LoggerFactory.getLogger(StringUtil.class);
 
     /**
      * Computes SHA-256 hash of a string
