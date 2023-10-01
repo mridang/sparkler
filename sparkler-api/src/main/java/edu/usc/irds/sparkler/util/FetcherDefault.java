@@ -23,6 +23,7 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -143,9 +144,11 @@ public class FetcherDefault extends AbstractExtensionPoint implements Fetcher, F
 
     public FetchedData fetch(Resource resource) throws Exception {
 
-
         LOG.info("DEFAULT FETCHER {}", resource.getUrl());
-        HttpClientBuilder httpClient = HttpClients.custom();
+        HttpClientBuilder httpClient = HttpClients.custom()
+                .setDefaultRequestConfig(RequestConfig.custom()
+                        .setCookieSpec(CookieSpecs.STANDARD)
+                        .build());
         RequestConfig.Builder requestConfig = RequestConfig.custom();
         if(proxyurl != null && !proxyurl.equals("")){
             LOG.info("Setting up the Proxy: " + proxyurl + " " + proxyport + " " + proxyscheme);
