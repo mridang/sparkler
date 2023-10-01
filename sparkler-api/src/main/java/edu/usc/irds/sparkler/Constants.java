@@ -102,7 +102,7 @@ public interface Constants {
             InputStream input = null;
             SparklerConfiguration sparklerConf = null;
             try {
-                input = Constants.class.getClassLoader().getResourceAsStream(System.getProperty("sparkler.conf", file.SPARKLER_DEFAULT));
+                input = Constants.class.getResourceAsStream(System.getProperty("sparkler.conf", file.SPARKLER_DEFAULT));
                 Map<String,Object> yamlMap = (Map<String, Object>) yaml.load(input);
                 sparklerConf = new SparklerConfiguration(yamlMap);
             } catch (Exception e) {
@@ -119,7 +119,7 @@ public interface Constants {
     }
 
     interface file {
-        String SPARKLER_DEFAULT = "sparkler-default.yaml";
+        String SPARKLER_DEFAULT = "/sparkler-default.yaml";
     }
 
     interface storage { // Storage Fields
