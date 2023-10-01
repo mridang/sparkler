@@ -73,13 +73,13 @@ object Dependencies {
   }
   object Tika2 {
     private val group = "org.apache.tika"
-    private val version = "2.2.1"
+    private val version = "2.6.0"
     lazy val parsers = group %% "tika-parsers" % version
     lazy val core = group %% "tika-core" % version
   }
-  lazy val tikaParsers = "org.apache.tika" % "tika-parsers" % "2.2.1"
-  lazy val tikaParsersStandard = "org.apache.tika" % "tika-parsers-standard-package" % "2.2.1"
-  lazy val tikaCore = "org.apache.tika" % "tika-core" % "2.2.1"
+  lazy val tikaParsers = "org.apache.tika" % "tika-parsers" % "2.6.0"
+  lazy val tikaParsersStandard = "org.apache.tika" % "tika-parsers-standard-package" % "2.6.0"
+  lazy val tikaCore = "org.apache.tika" % "tika-core" % "2.6.0"
   lazy val elasticsearch = "org.elasticsearch.client" % "elasticsearch-rest-high-level-client" % "7.16.3"
 
 }

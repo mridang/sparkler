@@ -154,7 +154,7 @@ class FairFetcher(val job: SparklerJob, val resources: Iterator[Resource], val d
       }
       persistDocument(data, job.getConfiguration)
       val doc = updateFunction(data)
-      LOG.info("Adding doc to SOLR")
+      LOG.info("Adding doc to storage engine")
       job.getStorageFactory.getProxy.addResource(doc)
       data
 
